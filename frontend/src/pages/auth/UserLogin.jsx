@@ -4,8 +4,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const UserLogin = () => {
-
   const navigate = useNavigate();
+
+  // axios instance with baseURL
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true, // cookies/session ke liye
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,15 +18,18 @@ const UserLogin = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    const response = await axios.post("http://localhost:3000/api/auth/user/login", {
-      email,
-      password
-    }, { withCredentials: true });
+    try {
+      const response = await api.post("/api/auth/user/login", {
+        email,
+        password,
+      });
 
-    console.log(response.data);
+      console.log(response.data);
 
-    navigate("/"); // Redirect to home after login
-
+      navigate("/"); // Redirect to home after login
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err.message);
+    }
   };
 
   return (
@@ -51,3 +59,4 @@ const UserLogin = () => {
 };
 
 export default UserLogin;
+

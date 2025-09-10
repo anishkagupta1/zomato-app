@@ -8,9 +8,13 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors({
-    origin: ["http://localhost:5173", "https://zomato-app.vercel.app"],
+    origin: [
+        "http://localhost:5173", 
+        "https://zomato-app-vjxd.vercel.app"   // yeh sahi hai
+    ],
     credentials: true
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 
